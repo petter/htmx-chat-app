@@ -9,11 +9,13 @@ export interface ChatMessage {
 const messages: Array<ChatMessage> = [];
 
 async function addMessage(message: string) {
-  messages.push({
+  const m = {
     id: String(id++),
     message,
     timestamp: new Date().toISOString(),
-  });
+  };
+  messages.push(m);
+  return m;
 }
 
 async function getMessages() {
