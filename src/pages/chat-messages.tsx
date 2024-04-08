@@ -5,6 +5,9 @@ export function ChatMessages({ messages }: { messages: Array<ChatMessage> }) {
     <div
       class="flex flex-col gap-2 w-full max-h-[80vh] h-screen overflow-y-scroll"
       id="chatMessages"
+      hx-get="/messages"
+      hx-trigger="every 1s"
+      hx-swap="innerHTML"
     >
       {messages.map(({ id, message, timestamp }) => (
         <SingleMessage message={{ id, message, timestamp }} />

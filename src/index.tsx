@@ -18,4 +18,15 @@ app.post("/new-message", async (c) => {
   return c.html(<SingleMessage message={m} />);
 });
 
+app.get("/messages", async (c) => {
+  const messages = await chatApi.getMessages();
+  return c.html(
+    <>
+      {messages.map((message) => (
+        <SingleMessage message={message} />
+      ))}
+    </>
+  );
+});
+
 export default app;
