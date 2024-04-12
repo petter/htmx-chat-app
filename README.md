@@ -1,8 +1,8 @@
 # Chat app
 
-Oppgave: lag en chatte-app som oppdaterer seg i sanntid, som vist i GIF 👇
+Task: Create a chat app that updates in real time, as shown in the GIF below 👇
 
-![](./losning.gif)
+![](./solution.gif)
 
 ## Set up
 
