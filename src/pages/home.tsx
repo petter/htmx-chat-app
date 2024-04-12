@@ -13,8 +13,7 @@ export function HomePage({ messages }: { messages: Array<ChatMessage> }) {
               "hx-on::after-request": "chatForm.reset();chatBox.focus();",
             }}
             hx-post="/new-message"
-            hx-target="#chatMessages"
-            hx-swap="beforeend"
+            hx-swap="none"
             class="flex gap-2"
             id="chatForm"
           >

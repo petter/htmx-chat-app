@@ -1,7 +1,8 @@
 import { Hono } from "hono";
+import { streamSSE } from "hono/streaming";
 
 import { HomePage } from "./pages/home";
-import { chatApi } from "./server/chat-api";
+import { ChatMessage, chatApi } from "./server/chat-api";
 import { SingleMessage } from "./pages/chat-messages";
 
 const app = new Hono();
@@ -19,14 +20,23 @@ app.post("/new-message", async (c) => {
 });
 
 app.get("/messages", async (c) => {
-  const messages = await chatApi.getMessages();
-  return c.html(
-    <>
-      {messages.map((message) => (
-        <SingleMessage message={message} />
-      ))}
-    </>
-  );
+  let id = 0;
+
+  return streamSSE(c, async (stream) => {
+    function subscriber(message: ChatMessage) {
+      stream.writeSSE({
+        event: "message",
+        data: String(<SingleMessage message={message} />),
+        id: String(id++),
+      });
+    }
+
+    stream.onAbort(() => {
+      chatApi.unsubscribe(subscriber);
+    });
+
+    chatApi.subscribe(subscriber);
+  });
 });
 
 export default app;

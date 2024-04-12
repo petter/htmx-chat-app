@@ -1,4 +1,7 @@
+import { EventEmitter } from "node:events";
 let id = 0;
+
+const emitter = new EventEmitter();
 
 export interface ChatMessage {
   id: string;
@@ -15,7 +18,16 @@ async function addMessage(message: string) {
     timestamp: new Date().toISOString(),
   };
   messages.push(m);
+  emitter.emit("newMessage", m);
   return m;
+}
+
+export function subscribe(newMessage: (m: ChatMessage) => void) {
+  emitter.on("newMessage", newMessage);
+}
+
+export function unsubscribe(newMessage: (m: ChatMessage) => void) {
+  emitter.off("newMessage", newMessage);
 }
 
 async function getMessages() {
@@ -25,4 +37,6 @@ async function getMessages() {
 export const chatApi = {
   addMessage,
   getMessages,
+  subscribe,
+  unsubscribe,
 };

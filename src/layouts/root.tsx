@@ -11,6 +11,7 @@ export function RootLayout({
         <title>My App</title>
         <link rel="stylesheet" href={styles} />
         <script src="https://unpkg.com/htmx.org@1.9.11"></script>
+        <script src="https://unpkg.com/htmx.org@1.9.11/dist/ext/sse.js"></script>
       </head>
       <body>{children}</body>
     </html>
